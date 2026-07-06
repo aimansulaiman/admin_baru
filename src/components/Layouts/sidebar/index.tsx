@@ -1,32 +1,54 @@
 "use client";
 
+import { useLogoutMutation } from "@/app/api/rtk/authApi";
 import { ArrowLeftIcon } from "@/components/Inbox/icons";
-import { Logo } from "@/components/logo";
 import { cn } from "@/lib/utils";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { NAV_DATA } from "./data";
 import { ChevronUp } from "./icons";
 import { MenuItem } from "./menu-item";
+import MulaSidebarHeader from "./MulaSidebarHeader";
 import { useSidebarContext } from "./sidebar-context";
 
 export function Sidebar() {
   const pathname = usePathname();
+  const router = useRouter();
+
   const { setIsOpen, isOpen, isMobile, toggleSidebar } = useSidebarContext();
+
+  const [logout] = useLogoutMutation();
+
   const [expandedItems, setExpandedItems] = useState<string[]>([]);
 
   const toggleExpanded = (title: string) => {
     setExpandedItems((prev) => (prev.includes(title) ? [] : [title]));
+  };
 
-    // Uncomment the following line to enable multiple expanded items
-    // setExpandedItems((prev) =>
-    //   prev.includes(title) ? prev.filter((t) => t !== title) : [...prev, title],
-    // );
+  const handleLogout = async () => {
+    const confirmed = window.confirm("Are you sure you want to logout?");
+
+    if (!confirmed) {
+      return;
+    }
+
+    try {
+      await logout().unwrap();
+    } catch {
+      // Continue local logout even if backend logout fails.
+    } finally {
+      localStorage.removeItem("mula_auth_token");
+      localStorage.removeItem("mula_auth_user");
+
+      if (isMobile) {
+        setIsOpen(false);
+      }
+
+      router.replace("/auth/sign-in");
+    }
   };
 
   useEffect(() => {
-    // Keep collapsible open, when it's subpage is active
     NAV_DATA.some((section) => {
       return section.items.some((item) => {
         return item.items.some((subItem) => {
@@ -35,9 +57,10 @@ export function Sidebar() {
               toggleExpanded(item.title);
             }
 
-            // Break the loop
             return true;
           }
+
+          return false;
         });
       });
     });
@@ -45,7 +68,6 @@ export function Sidebar() {
 
   return (
     <>
-      {/* Mobile Overlay */}
       {isMobile && isOpen && (
         <div
           className="fixed inset-0 z-40 bg-black/50 transition-opacity duration-300"
@@ -64,20 +86,14 @@ export function Sidebar() {
         aria-hidden={!isOpen}
         inert={!isOpen}
       >
-        <div className="flex h-full flex-col pt-10 pr-1.75 pl-6.25">
+        <div className="flex h-full flex-col pt-4 pr-1.75 pl-4">
           <div className="relative pr-4.5">
-            <Link
-              href={"/"}
-              onClick={() => isMobile && toggleSidebar()}
-              className="px-0 py-2.5 min-[850px]:py-0"
-            >
-              <Logo />
-            </Link>
+            <MulaSidebarHeader />
 
             {isMobile && (
               <button
                 onClick={toggleSidebar}
-                className="absolute top-1/2 right-4.5 left-3/4 -translate-y-1/2 text-right"
+                className="absolute top-6 right-4.5 text-right"
               >
                 <span className="sr-only">Close Menu</span>
 
@@ -86,8 +102,7 @@ export function Sidebar() {
             )}
           </div>
 
-          {/* Navigation */}
-          <div className="custom-scrollbar mt-6 flex-1 overflow-y-auto pr-3 min-[850px]:mt-10">
+          <div className="custom-scrollbar mt-6 flex-1 overflow-y-auto pr-3">
             {NAV_DATA.map((section) => (
               <div key={section.label} className="mb-6">
                 <h2 className="mb-5 text-sm font-medium text-dark-4 dark:text-dark-6">
@@ -159,6 +174,23 @@ export function Sidebar() {
                                 ? item.url + ""
                                 : "/" +
                                   item.title.toLowerCase().split(" ").join("-");
+
+                            if (href === "/logout") {
+                              return (
+                                <MenuItem
+                                  className="flex items-center gap-3 py-3 text-red hover:bg-red/10 hover:text-red"
+                                  isActive={false}
+                                  onClick={handleLogout}
+                                >
+                                  <item.icon
+                                    className="size-6 shrink-0"
+                                    aria-hidden="true"
+                                  />
+
+                                  <span>{item.title}</span>
+                                </MenuItem>
+                              );
+                            }
 
                             return (
                               <MenuItem

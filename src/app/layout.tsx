@@ -1,3 +1,4 @@
+import ReduxProvider from "@/store/provider";
 import "@/css/satoshi.css";
 import "@/css/simple-datatables.css";
 import "dropzone/dist/dropzone.css";
@@ -26,7 +27,7 @@ export default function RootLayout({ children }: PropsWithChildren) {
       <body>
         <Providers>
           <NextTopLoader color="#5750F1" showSpinner={false} />
-          {children}
+          <ReduxProvider>{children}</ReduxProvider>
         </Providers>
       </body>
     </html>

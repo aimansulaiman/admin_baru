@@ -1,3 +1,4 @@
+import ApiSummaryCards from "@/components/Dashboard/ApiSummaryCards";
 import { PaymentsOverview } from "@/components/Charts/advanced/payments-overview";
 import { WeeksProfit } from "@/components/Charts/advanced/profit";
 import { UsedDevices } from "@/components/Charts/basic/used-devices";
@@ -5,8 +6,6 @@ import { createTimeFrameExtractor } from "@/utils/timeframe-extractor";
 import { Suspense } from "react";
 import { ChatsCard } from "./_components/chats-card";
 import NotifyUser from "./_components/notify-user";
-import { OverviewCardsGroup } from "./_components/overview-cards";
-import { OverviewCardsSkeleton } from "./_components/overview-cards/skeleton";
 import { RegionLabels } from "./_components/region-labels";
 import { TopChannels } from "./_components/top-channels";
 import { TopChannelsSkeleton } from "./_components/top-channels/skeleton";
@@ -25,9 +24,7 @@ export default async function Home({ searchParams }: PropsType) {
 
   return (
     <>
-      <Suspense fallback={<OverviewCardsSkeleton />}>
-        <OverviewCardsGroup />
-      </Suspense>
+      <ApiSummaryCards />
 
       <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-9 2xl:gap-7.5">
         <PaymentsOverview

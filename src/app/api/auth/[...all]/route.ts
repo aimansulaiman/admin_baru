@@ -1,5 +1,13 @@
-import { auth } from "@/lib/auth/auth";
-import { toNextJsHandler } from "better-auth/next-js";
+export async function GET() {
+  return Response.json({
+    success: true,
+    message: "Auth API disabled. Dummy auth is enabled.",
+  });
+}
 
-// NextAuth.js used [...nextauth]; Better Auth mounts on [...all].
-export const { GET, POST } = toNextJsHandler(auth);
+export async function POST() {
+  return Response.json({
+    success: true,
+    message: "Auth API disabled. Dummy auth is enabled.",
+  });
+}

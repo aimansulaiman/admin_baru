@@ -5,7 +5,7 @@ export const NAV_DATA = [
   {
     label: "MAIN MENU",
     items: [
-      {
+     /* {
         title: "Dashboard",
         icon: Icons.HomeIcon,
         items: [
@@ -29,18 +29,85 @@ export const NAV_DATA = [
             isPro: true,
           },
           {
-            title: "Stocks",
-            url: "/stocks",
+            title: "Products",
+            url: "/products",
             isPro: true,
           },
         ],
+      },*/
+      {
+        title: "Store Management",
+        url: "/store-management",
+        icon: Icons.HomeIcon,
+        items: [],
       },
       {
-        title: "Calendar",
-        url: "/calendar",
+        title: "Orders",
+        url: "/orders",
+        icon: Icons.Table,
+        items: [],
+      },
+      {
+        title: "Products",
+        url: "/products",
+        icon: Icons.FourCircle,
+        items: [],
+      },
+      {
+        title: "Stores",
+        url: "/stores",
+        icon: Icons.HomeIcon,
+        items: [],
+      },
+      {
+        title: "Taxons",
+        url: "/taxons",
+        icon: Icons.Table,
+        items: [],
+      },
+      {
+        title: "Reward Campaigns",
+        url: "/reward-campaigns",
+        icon: Icons.CheckList,
+        items: [],
+      },
+      {
+        title: "Missions",
+        url: "/missions",
+        icon: Icons.CheckList,
+        items: [],
+      },
+      {
+        title: "Merchandises",
+        url: "/merchandises",
+        icon: Icons.FourCircle,
+        items: [],
+      },
+      {
+        title: "Statistics",
+        url: "/statistics",
+        icon: Icons.PieChart,
+        items: [],
+      },
+      {
+        title: "Points Configuration",
+        url: "/points-configuration",
+        icon: Icons.CheckList,
+        items: [],
+      },
+      {
+        title: "Banners",
+        url: "/banners",
+        icon: Icons.Inbox,
+        items: [],
+      },
+      {
+        title: "Check-in Rewards",
+        url: "/check-in-rewards",
         icon: Icons.Calendar,
         items: [],
       },
+      
       {
         title: "Profile",
         url: "/profile",
@@ -48,12 +115,43 @@ export const NAV_DATA = [
         items: [],
       },
       {
-        title: "Manage Team",
-        url: "/manage-team",
+        title: "Users",
+        url: "/users",
         icon: Icons.TeamIcon,
         items: [],
       },
       {
+        title: "Customers",
+        url: "/customers",
+        icon: Icons.TeamIcon,
+        items: [],
+      },
+      
+      {
+        title: "Additional Settings",
+        url: "/additional-settings",
+        icon: Icons.Others,
+        items: [],
+      },
+      {
+        title: "Whatsapp",
+        url: "/whatsapp",
+        icon: Icons.Chat,
+        items: [],
+      },
+      {
+        title: "Bug Reports",
+        url: "/bug-reports",
+        icon: Icons.Others,
+        items: [],
+      },
+      {
+        title: "Logout",
+        url: "/logout",
+        icon: Icons.Authentication,
+        items: [],
+      },
+     /*{
         title: "Tasks",
         icon: Icons.CheckList,
         items: [
@@ -92,8 +190,8 @@ export const NAV_DATA = [
             isPro: true,
           },
         ],
-      },
-      {
+      },*/
+     /* {
         title: "Tables",
         url: "/tables",
         icon: Icons.Table,
@@ -113,8 +211,8 @@ export const NAV_DATA = [
             isPro: true,
           },
         ],
-      },
-      {
+      },*/
+     /* {
         title: "Pages",
         icon: Icons.Alphabet,
         items: [
@@ -153,10 +251,10 @@ export const NAV_DATA = [
             isPro: true,
           },
         ],
-      },
+      },*/
     ],
   },
-  {
+ /*{
     label: "SUPPORT",
     items: [
       {
@@ -222,5 +320,5 @@ export const NAV_DATA = [
         ],
       },
     ],
-  },
+  },*/
 ];
