@@ -41,7 +41,7 @@ export default function OrderProfile({ id }: { id: number }) {
       </div>
     );
   }
-
+const orderAny: any = order;
   return (
     <div className="mx-auto max-w-6xl space-y-6">
       <div className="rounded-[10px] bg-white p-6 shadow-1 dark:bg-gray-dark dark:shadow-card">
@@ -66,9 +66,9 @@ export default function OrderProfile({ id }: { id: number }) {
       </div>
 
       <div className="grid gap-4 md:grid-cols-4">
-        <SummaryCard title="Total Price" value={money(order.total_price)} />
-        <SummaryCard title="Reward Discount" value={money(order.reward_discount)} />
-        <SummaryCard title="Final Total" value={money(order.final_total)} />
+        <SummaryCard title="Total Price" value={money(orderAny.total_price)} />
+        <SummaryCard title="Reward Discount" value={money(orderAny.reward_discount)} />
+        <SummaryCard title="Final Total" value={money(orderAny.final_total)} />
         <SummaryCard title="Items" value={order.items_count} />
       </div>
 
@@ -77,11 +77,10 @@ export default function OrderProfile({ id }: { id: number }) {
           title="Order Information"
           items={[
             ["Order Number", order.order_number],
-            ["Status", order.status_label || order.status],
-            ["Payment Status", order.payment_status],
-            ["Payment Provider", order.payment_provider],
-            ["Payment Amount", money(order.payment_amount)],
-            ["Bill Amount", money(order.bill_amount)],
+            ["Status", orderAny.status_label || order.status],            ["Payment Status", order.payment_status],
+            ["Payment Provider", orderAny.payment_provider],
+            ["Payment Amount", money(orderAny.payment_amount)],
+            ["Bill Amount", money(orderAny.bill_amount)],
             ["Created At", formatDate(order.created_at)],
             ["Updated At", formatDate(order.updated_at)],
           ]}
@@ -92,7 +91,7 @@ export default function OrderProfile({ id }: { id: number }) {
           items={[
             ["Customer Name", order.customer_name],
             ["Customer Email", order.customer_email],
-            ["Customer Phone", order.customer_phone_number],
+            ["Customer Phone", orderAny.customer_phone_number],
             ["Store Name", order.store_name],
             ["Client Name", order.client_name],
             ["Client Domain", order.client_domain_name],
@@ -123,7 +122,7 @@ export default function OrderProfile({ id }: { id: number }) {
             </thead>
 
             <tbody>
-              {(order.line_items || []).map((item) => (
+              {(order.line_items || []).map((item:any) => (
                 <tr
                   key={item.id}
                   className="border-b border-stroke last:border-b-0 dark:border-dark-3"

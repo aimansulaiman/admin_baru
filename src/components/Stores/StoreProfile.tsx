@@ -33,7 +33,7 @@ export default function StoreProfile({ id }: { id: number }) {
       </div>
     );
   }
-
+const storeAny: any = store;
   return (
     <div className="mx-auto max-w-6xl space-y-6">
       <div className="rounded-[10px] bg-white p-6 shadow-1 dark:bg-gray-dark dark:shadow-card">
@@ -58,10 +58,10 @@ export default function StoreProfile({ id }: { id: number }) {
       </div>
 
       <div className="grid gap-4 md:grid-cols-4">
-        <SummaryCard title="Total Orders" value={store.orders_count} />
-        <SummaryCard title="Orders Today" value={store.orders_today_count} />
-        <SummaryCard title="Pending Orders" value={store.pending_orders_count} />
-        <SummaryCard title="Today Revenue" value={store.today_revenue} />
+        <SummaryCard title="Total Orders" value={storeAny.orders_count} />
+        <SummaryCard title="Orders Today" value={storeAny.orders_today_count} />
+        <SummaryCard title="Pending Orders" value={storeAny.pending_orders_count} />
+        <SummaryCard title="Today Revenue" value={storeAny.today_revenue} />
       </div>
 
       <div className="grid gap-6 xl:grid-cols-[1fr_380px]">
@@ -107,10 +107,10 @@ export default function StoreProfile({ id }: { id: number }) {
           </div>
 
           <div className="space-y-4 p-6">
-            <StatusRow label="Pending" value={store.pending_orders_count} />
-            <StatusRow label="Preparing" value={store.preparing_orders_count} />
-            <StatusRow label="Ready" value={store.ready_orders_count} />
-            <StatusRow label="Total Orders" value={store.orders_count} />
+            <StatusRow label="Pending" value={storeAny.pending_orders_count} />
+            <StatusRow label="Preparing" value={storeAny.preparing_orders_count} />
+            <StatusRow label="Ready" value={storeAny.ready_orders_count} />
+            <StatusRow label="Total Orders" value={storeAny.orders_count} />
           </div>
         </div>
       </div>

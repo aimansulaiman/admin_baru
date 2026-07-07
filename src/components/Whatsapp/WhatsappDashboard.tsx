@@ -1,6 +1,6 @@
 "use client";
 
-import { useGetWhatsappDashboardQuery } from "@/app/api/rtk/whatsappApi";
+import { useGetWhatsappQuery } from "@/app/api/rtk/whatsappApi";
 import type { WhatsappRecipient } from "@/types/whatsapp";
 import { useMemo, useState } from "react";
 
@@ -44,7 +44,7 @@ export default function WhatsappDashboard() {
   }, [search]);
 
   const { data, isLoading, isError, refetch } =
-    useGetWhatsappDashboardQuery(queryString);
+useGetWhatsappQuery(queryString);
 
   const totalCounts = useMemo(() => {
   return data?.data?.total_update_counts;

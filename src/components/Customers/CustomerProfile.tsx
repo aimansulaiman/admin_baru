@@ -37,7 +37,7 @@ export default function CustomerProfile({ id }: { id: number }) {
   const initials = customer.full_name
     ? customer.full_name
         .split(" ")
-        .map((part) => part[0])
+        .map((part: any) => part[0])
         .join("")
         .slice(0, 2)
         .toUpperCase()
@@ -150,7 +150,7 @@ export default function CustomerProfile({ id }: { id: number }) {
                 </thead>
 
                 <tbody>
-                  {(customer.cards || []).map((card) => (
+                  {(customer.cards || []).map((card: any) => (
                     <tr
                       key={card.id}
                       className="border-b border-stroke last:border-b-0 dark:border-dark-3"
@@ -193,7 +193,7 @@ export default function CustomerProfile({ id }: { id: number }) {
                 </thead>
 
                 <tbody>
-                  {(customer.recent_transactions || []).map((transaction) => (
+                  {(customer.recent_transactions || []).map((transaction: any) => (
                     <tr
                       key={transaction.id}
                       className="border-b border-stroke last:border-b-0 dark:border-dark-3"

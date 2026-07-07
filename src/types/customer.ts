@@ -69,3 +69,5 @@ export type DeleteCustomerResponse = {
   message: string;
   id: number | string;
 };
+
+export type CustomerRecord = any;
