@@ -79,19 +79,19 @@ export default function UserActionsDropdown({
 
       switch (pendingAction) {
         case "makeAdmin":
-          res = await makeAdmin({ userId: user.id });
+          res = await makeAdmin();
           break;
         case "logout":
-          res = await logoutUser({ userId: user.id });
+          res = await logoutUser();
           break;
         case "ban":
-          res = await banUser({ userId: user.id });
+          res = await banUser();
           break;
         case "unban":
-          res = await unbanUser({ userId: user.id });
+          res = await unbanUser();
           break;
         case "impersonate":
-          res = await impersonateUser({ userId: user.id });
+          res = await impersonateUser();
           break;
         case "delete":
           res = await deleteUser(user);
