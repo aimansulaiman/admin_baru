@@ -28,7 +28,7 @@ import SectionHeader from "./section-header";
 import UserActionsDropdown, { ManageTeamUser } from "./user-action-dropdown";
 
 type UserTableProps = {
-  initialUsers: ManageTeamUser[];
+  initialUsers: any;
 };
 
 export default function UserTable({ initialUsers }: UserTableProps) {
