@@ -48,7 +48,7 @@ const CalendarBox = () => {
                     <span className="event-name font-medium text-dark dark:text-white">
                       Redesign Website
                     </span>
-                    <span className="time text-sm">1 Dec - 2 Dec</span>
+                    <span className="time text-sm">1 jun - 2 jun</span>
                   </div>
                 </div>
               </td>
@@ -214,16 +214,16 @@ const CalendarBox = () => {
                 </span>
               </td>
               <td className="ease relative h-20 cursor-pointer border border-stroke p-2 transition duration-500 hover:bg-gray-2 dark:border-dark-3 dark:hover:bg-dark-2 md:h-25 md:p-6 xl:h-31">
-                <span className="font-medium text-dark dark:text-white">1</span>
+                <span className="font-medium text-dark dark:text-white">32</span>
               </td>
               <td className="ease relative h-20 cursor-pointer border border-stroke p-2 transition duration-500 hover:bg-gray-2 dark:border-dark-3 dark:hover:bg-dark-2 md:h-25 md:p-6 xl:h-31">
-                <span className="font-medium text-dark dark:text-white">2</span>
+                <span className="font-medium text-dark dark:text-white">33</span>
               </td>
               <td className="ease relative h-20 cursor-pointer border border-stroke p-2 transition duration-500 hover:bg-gray-2 dark:border-dark-3 dark:hover:bg-dark-2 md:h-25 md:p-6 xl:h-31">
-                <span className="font-medium text-dark dark:text-white">3</span>
+                <span className="font-medium text-dark dark:text-white">34</span>
               </td>
               <td className="ease relative h-20 cursor-pointer rounded-br-[10px] border border-stroke p-2 transition duration-500 hover:bg-gray-2 dark:border-dark-3 dark:hover:bg-dark-2 md:h-25 md:p-6 xl:h-31">
-                <span className="font-medium text-dark dark:text-white">4</span>
+                <span className="font-medium text-dark dark:text-white">35</span>
               </td>
             </tr>
             {/* <!-- Line 5 --> */}

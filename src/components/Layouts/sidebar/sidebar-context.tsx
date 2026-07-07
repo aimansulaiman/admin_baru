@@ -1,6 +1,5 @@
 "use client";
 
-import { useIsMobile } from "@/hooks/use-mobile";
 import { createContext, useContext, useEffect, useState } from "react";
 
 type SidebarState = "expanded" | "collapsed";
@@ -15,11 +14,15 @@ type SidebarContextType = {
 
 const SidebarContext = createContext<SidebarContextType | null>(null);
 
+const LG_BREAKPOINT = 1024;
+
 export function useSidebarContext() {
   const context = useContext(SidebarContext);
+
   if (!context) {
     throw new Error("useSidebarContext must be used within a SidebarProvider");
   }
+
   return context;
 }
 
@@ -30,20 +33,34 @@ export function SidebarProvider({
   children: React.ReactNode;
   defaultOpen?: boolean;
 }) {
+  const [isMobile, setIsMobile] = useState(false);
   const [isOpen, setIsOpen] = useState(defaultOpen);
-  const isMobile = useIsMobile();
 
   useEffect(() => {
-    if (isMobile) {
-      setIsOpen(false);
-    } else {
-      setIsOpen(true);
-    }
-  }, [isMobile]);
+    const handleResize = () => {
+      const mobile = window.innerWidth < LG_BREAKPOINT;
 
-  function toggleSidebar() {
-    setIsOpen((prev) => !prev);
-  }
+      setIsMobile(mobile);
+
+      if (mobile) {
+        setIsOpen(false);
+      } else {
+        setIsOpen(true);
+      }
+    };
+
+    handleResize();
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  const toggleSidebar = () => {
+    setIsOpen((previousOpen) => !previousOpen);
+  };
 
   return (
     <SidebarContext.Provider

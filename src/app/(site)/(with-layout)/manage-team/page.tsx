@@ -22,7 +22,7 @@ export default async function ManageTeamPage() {
 
   return (
     <div className="mx-auto w-full">
-      <Breadcrumb pageName="Manage Team" />
+      <Breadcrumb pageName="Staff TEMU" />
 
       <Suspense fallback={<span>Loading users...</span>}>
         <UserTable initialUsers={initialUsers} />

@@ -2,11 +2,9 @@ import { VisitorsAnalytics } from "@/components/Charts/advanced/visitors-analyti
 import { UsedDevices } from "@/components/Charts/basic/used-devices";
 import DataStatsTwo from "@/components/DataStats/DataStatsTwo";
 import { PeriodPicker } from "@/components/period-picker";
-import { auth } from "@/lib/auth";
 import hasPermission from "@/utils/hasPermission";
 import { createTimeFrameExtractor } from "@/utils/timeframe-extractor";
 import { Metadata } from "next";
-import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import { DatePicker } from "./_components/date-picker";
@@ -38,10 +36,6 @@ export default async function AnalyticsPage(props: PageProps) {
       )}`,
     );
   }
-
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
 
   const { selected_time_frame } = await props.searchParams;
 

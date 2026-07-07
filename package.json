@@ -4,12 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "prisma generate && next build",
+    "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "db:migrate": "prisma migrate dev",
-    "db:generate": "prisma generate",
-    "auth:generate": "npx auth@latest generate --output ./prisma/better-auth-schema.prisma"
+    "lint": "next lint"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.705.0",
@@ -18,6 +15,8 @@
     "@floating-ui/react": "^0.27.19",
     "@prisma/adapter-pg": "^7.8.0",
     "@prisma/client": "^7.8.0",
+    "@rails/actioncable": "^8.1.300",
+    "@reduxjs/toolkit": "^2.12.0",
     "@tanstack/react-table": "^8.21.2",
     "apexcharts": "3.45.2",
     "better-auth": "^1.3.0",
@@ -39,6 +38,7 @@
     "react-dom": "^19.2.0",
     "react-hook-form": "^7.75.0",
     "react-hot-toast": "^2.4.1",
+    "react-redux": "^9.3.0",
     "resend": "^6.12.3",
     "swiper": "^11.1.15",
     "tailwind-merge": "^2.5.5",
@@ -49,6 +49,7 @@
     "@types/bcrypt": "^5.0.2",
     "@types/node": "^22",
     "@types/pg": "^8.15.6",
+    "@types/rails__actioncable": "^8.0.3",
     "@types/react": "19.0.1",
     "@types/react-dom": "19.0.1",
     "autoprefixer": "^10.4.20",
