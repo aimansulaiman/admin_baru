@@ -3,6 +3,7 @@
 import { authClient } from "@/lib/auth/auth-client";
 import Image from "next/image";
 import Link from "next/link";
+import { Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
   type ChangeEvent,
@@ -17,7 +18,7 @@ import toast from "react-hot-toast";
 
 const OTP_LENGTH = 6;
 
-export default function VerifyEmailPage() {
+function VerifyEmailContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const email = searchParams.get("email") ?? "";
@@ -36,6 +37,7 @@ export default function VerifyEmailPage() {
 
   const updateDigit = (index: number, value: string) => {
     const nextValue = value.replace(/\D/g, "").slice(-1);
+
     setOtp((current) => {
       const next = [...current];
       next[index] = nextValue;
@@ -61,19 +63,19 @@ export default function VerifyEmailPage() {
 
   const handlePaste = (event: ClipboardEvent<HTMLDivElement>) => {
     event.preventDefault();
+
     const pasted = event.clipboardData
       .getData("text")
       .replace(/\D/g, "")
       .slice(0, OTP_LENGTH);
 
-    if (!pasted) {
-      return;
-    }
+    if (!pasted) return;
 
     const nextOtp = Array.from(
       { length: OTP_LENGTH },
       (_, index) => pasted[index] ?? "",
     );
+
     setOtp(nextOtp);
 
     const nextIndex = Math.min(pasted.length, OTP_LENGTH - 1);
@@ -213,6 +215,7 @@ export default function VerifyEmailPage() {
                   >
                     {isVerifying ? "Verifying..." : "Verify email"}
                   </button>
+
                   <button
                     type="button"
                     onClick={handleResend}
@@ -232,5 +235,13 @@ export default function VerifyEmailPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function VerifyEmailPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <VerifyEmailContent />
+    </Suspense>
   );
 }
