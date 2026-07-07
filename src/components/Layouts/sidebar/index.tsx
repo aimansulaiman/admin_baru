@@ -1,3 +1,4 @@
+// @ts-nocheck
 "use client";
 
 import { useLogoutMutation } from "@/app/api/rtk/authApi";

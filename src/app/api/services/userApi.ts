@@ -30,7 +30,12 @@ export async function getUsers(): Promise<User[]> {
 export async function createUser(data: CreateUserInput): Promise<User> {
   const result = await apiRequest<UserResponse>("/api/users", {
     method: "POST",
-    body: data,
+    headers: {
+
+    "Content-Type": "application/json",
+
+  },
+    body: JSON.stringify(data),
   });
 
   return result.data;
@@ -42,7 +47,12 @@ export async function updateUser(
 ): Promise<User> {
   const result = await apiRequest<UserResponse>(`/api/users/${id}`, {
     method: "PUT",
-    body: data,
+    headers: {
+
+    "Content-Type": "application/json",
+
+  },
+    body: JSON.stringify(data),
   });
 
   return result.data;

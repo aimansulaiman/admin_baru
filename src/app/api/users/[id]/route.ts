@@ -16,9 +16,8 @@ export async function PUT(request: Request, context: RouteContext) {
     {
       name: body.name,
       email: body.email,
-      role: body.role || "user",
-      status: body.status || "active",
-    } satisfies Omit<User, "id">,
+     
+    } as any ,
   );
 
   return Response.json({

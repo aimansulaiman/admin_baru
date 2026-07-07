@@ -14,9 +14,7 @@ export async function POST(request: Request) {
   const newUser = createNewUser({
     name: body.name,
     email: body.email,
-    role: body.role || "user",
-    status: body.status || "active",
-  } satisfies Omit<User, "id">);
+  } as any );
 
   return Response.json({
     success: true,

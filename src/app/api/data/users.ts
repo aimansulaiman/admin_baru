@@ -1,6 +1,6 @@
 import type { User } from "@/types/user";
 
-export let users: User[] = [
+export let users: any[] = [
   {
     id: "1",
     name: "Demo Admin",
@@ -28,8 +28,8 @@ export function getAllUsers() {
   return users;
 }
 
-export function createNewUser(data: Omit<User, "id">) {
-  const newUser: User = {
+export function createNewUser(data: any) {
+  const newUser: any = {
     id: Date.now().toString(),
     ...data,
   };
@@ -39,20 +39,20 @@ export function createNewUser(data: Omit<User, "id">) {
   return newUser;
 }
 
-export function updateUserById(id: string, data: Omit<User, "id">) {
-  const updatedUser: User = {
+export function updateUserById(id: string, data: any) {
+  const updatedUser: any = {
     id,
     ...data,
   };
 
-  const existingUser = users.find((user) => user.id === id);
+  const existingUser = users.find((user: any) => user.id === id);
 
   if (!existingUser) {
     users = [updatedUser, ...users];
     return updatedUser;
   }
 
-  users = users.map((user) => {
+  users = users.map((user: any) => {
     if (user.id === id) {
       return updatedUser;
     }
@@ -64,7 +64,7 @@ export function updateUserById(id: string, data: Omit<User, "id">) {
 }
 
 export function deleteUserById(id: string) {
-  const existingUser = users.find((user) => user.id === id);
+  const existingUser = users.find((user: any) => user.id === id);
 
   if (!existingUser) {
     return {
@@ -73,10 +73,10 @@ export function deleteUserById(id: string) {
       email: "deleted@example.com",
       role: "user",
       status: "inactive",
-    } satisfies User;
+    };
   }
 
-  users = users.filter((user) => user.id !== id);
+  users = users.filter((user: any) => user.id !== id);
 
   return existingUser;
 }

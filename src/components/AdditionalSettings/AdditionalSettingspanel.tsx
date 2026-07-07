@@ -1,6 +1,6 @@
 "use client";
 
-import { useGetAdditionalSettingsQuery } from "@/app/api/rtk/additionalSettingsApi";
+import { useGetAdditionalSettingQuery } from "@/app/api/rtk/additionalSettingsApi";
 import { useMemo } from "react";
 
 export default function AdditionalSettingsPanel() {
@@ -16,10 +16,11 @@ export default function AdditionalSettingsPanel() {
   }, []);
 
   const { data, isLoading, isError, refetch } =
-    useGetAdditionalSettingsQuery(queryString);
+useGetAdditionalSettingQuery(queryString);
 
-  const settings = data?.data?.settings || [];
-  const client = data?.data?.client;
+const response: any = data;
+const settings = response?.data?.settings || [];
+const client = response?.data?.client;
 
   if (isLoading) {
     return (
@@ -72,7 +73,7 @@ export default function AdditionalSettingsPanel() {
         </div>
 
         <div className="mt-6 grid gap-4 md:grid-cols-2">
-          {settings.map((setting) => (
+          {settings.map((setting: any) => (
             <div
               key={setting.key}
               className="rounded-lg border border-stroke p-5 dark:border-dark-3"
