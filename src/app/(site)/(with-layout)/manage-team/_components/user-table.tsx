@@ -32,7 +32,7 @@ type UserTableProps = {
 };
 
 export default function UserTable({ initialUsers }: UserTableProps) {
-  const [users, setUsers] = useState(initialUsers);
+  const [users, setUsers] = useState<any>(initialUsers);
   const [searchTerm, setSearchTerm] = useState("");
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [isLoading, setIsLoading] = useState(false);
