@@ -10,6 +10,8 @@ const Signin = () => {
 
   const [login, { isLoading }] = useLoginMutation();
 
+  const [showPassword, setShowPassword] = useState(false);
+
   const [form, setForm] = useState({
     email: "",
     password: "",
@@ -48,14 +50,14 @@ const Signin = () => {
       const cookieMaxAge = form.remember ? 60 * 60 * 24 * 7 : 60 * 60 * 8;
 
       document.cookie = `mula_auth_token=${encodeURIComponent(
-      response.data.token,
+        response.data.token,
       )}; path=/; max-age=${cookieMaxAge}; SameSite=Lax`;
 
-      const redirectUrl = new URLSearchParams(window.location.search).get("redirect");
+      const redirectUrl = new URLSearchParams(window.location.search).get(
+        "redirect",
+      );
 
-      router.replace(redirectUrl || "/dashboard");
-
-      router.push("/store-management");
+      router.replace(redirectUrl || "/store-management");
     } catch (error: any) {
       alert(error?.data?.message || error?.message || "Failed to login.");
     }
@@ -64,9 +66,7 @@ const Signin = () => {
   return (
     <form onSubmit={handleSubmit}>
       <div className="mb-5">
-        <label className="mb-2.5 block font-medium text-dark">
-          Email
-        </label>
+        <label className="mb-2.5 block font-medium text-dark">Email</label>
 
         <input
           type="email"
@@ -78,17 +78,25 @@ const Signin = () => {
       </div>
 
       <div className="mb-4">
-        <label className="mb-2.5 block font-medium text-dark">
-          Password
-        </label>
+        <label className="mb-2.5 block font-medium text-dark">Password</label>
 
-        <input
-          type="password"
-          value={form.password}
-          onChange={(event) => updateForm("password", event.target.value)}
-          placeholder="password"
-          className="w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-dark outline-none focus:border-primary"
-        />
+        <div className="relative">
+          <input
+            type={showPassword ? "text" : "password"}
+            value={form.password}
+            onChange={(event) => updateForm("password", event.target.value)}
+            placeholder="password"
+            className="w-full rounded-lg border border-slate-300 bg-white px-4 py-3 pr-20 text-dark outline-none focus:border-primary"
+          />
+
+          <button
+            type="button"
+            onClick={() => setShowPassword((current) => !current)}
+            className="absolute right-4 top-1/2 -translate-y-1/2 text-sm font-semibold text-primary"
+          >
+            {showPassword ? "Hide" : "View"}
+          </button>
+        </div>
       </div>
 
       <div className="mb-6 flex items-center justify-between gap-3">

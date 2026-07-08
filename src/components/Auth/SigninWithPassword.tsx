@@ -18,6 +18,8 @@ export default function SigninWithPassword({
 }) {
   const router = useRouter();
 
+  const [showPassword, setShowPassword] = useState(false);
+
   const [formData, setFormData] = useState({
     email: "admin@example.com",
     password: "admin123",
@@ -89,19 +91,34 @@ export default function SigninWithPassword({
       </div>
 
       <div className="mb-5">
-        <InputGroup
-          type="password"
-          label="Password"
-          className="[&_input]:py-3.75"
-          placeholder="Enter any password"
-          name="password"
-          handleChange={handleChange}
-          value={formData.password}
-          icon={<PasswordIcon />}
-          disabled={disabled}
-          required
-          autoComplete="current-password"
-        />
+        <label className="mb-3 block text-body-sm font-medium text-dark dark:text-white">
+          Password
+        </label>
+
+        <div className="relative">
+          <InputGroup
+            type={showPassword ? "text" : "password"}
+            label=""
+            className="[&_input]:py-3.75 [&_input]:pr-20"
+            placeholder="Enter any password"
+            name="password"
+            handleChange={handleChange}
+            value={formData.password}
+            icon={<PasswordIcon />}
+            disabled={disabled}
+            required
+            autoComplete="current-password"
+          />
+
+          <button
+            type="button"
+            onClick={() => setShowPassword((current) => !current)}
+            disabled={disabled}
+            className="absolute right-4 top-1/2 -translate-y-1/2 text-sm font-semibold text-primary disabled:opacity-60"
+          >
+            {showPassword ? "Hide" : "View"}
+          </button>
+        </div>
       </div>
 
       <div className="mb-6 flex items-center justify-between gap-2 py-2 font-medium">
