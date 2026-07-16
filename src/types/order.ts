@@ -42,6 +42,12 @@ export type Order = {
 
   created_at: string;
   updated_at: string;
+
+final_total?: number | string | null;
+bill_amount?: number | string | null;
+payment_amount?: number | string | null;
+total_price?: number | string | null;
+
 };
 
 export type OrderStats = {
