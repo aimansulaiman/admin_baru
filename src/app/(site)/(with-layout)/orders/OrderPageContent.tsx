@@ -4,6 +4,11 @@ import { useOrderTable } from "@/components/Orders/OrderTable";
 import type { Order } from "@/types/order";
 import Link from "next/link";
 
+const moneyFormatter = new Intl.NumberFormat("en-MY", {
+  style: "currency",
+  currency: "MYR",
+});
+
 const OrderPageContent = () => {
   const {
     orderNumber,
@@ -14,8 +19,6 @@ const OrderPageContent = () => {
     setStoreName,
     status,
     setStatus,
-    paymentStatus,
-    setPaymentStatus,
 
     orders,
     meta,
@@ -73,10 +76,22 @@ const OrderPageContent = () => {
       )}
 
       <div className="mb-6 grid gap-4 md:grid-cols-4">
-        <OrderStatsCard title="Total Orders" value={stats?.total_orders || meta?.total || 0} />
+        <OrderStatsCard
+          title="Total Orders"
+          value={stats?.total_orders || meta?.total || 0}
+        />
+
         <OrderStatsCard title="Pending" value={stats?.pending_orders || 0} />
-        <OrderStatsCard title="Completed" value={stats?.completed_orders || 0} />
-        <OrderStatsCard title="Cancelled" value={stats?.cancelled_orders || 0} />
+
+        <OrderStatsCard
+          title="Completed"
+          value={stats?.completed_orders || 0}
+        />
+
+        <OrderStatsCard
+          title="Cancelled"
+          value={stats?.cancelled_orders || 0}
+        />
       </div>
 
       <div className="rounded-[10px] bg-white shadow-1 dark:bg-gray-dark dark:shadow-card">
@@ -95,7 +110,7 @@ const OrderPageContent = () => {
         <div className="p-6">
           <form
             onSubmit={handleSearch}
-            className="mb-5 grid gap-4 md:grid-cols-6"
+            className="mb-5 grid gap-4 md:grid-cols-5"
           >
             <div>
               <label className="mb-2 block text-sm font-medium text-dark dark:text-white">
@@ -147,28 +162,11 @@ const OrderPageContent = () => {
                 className="w-full rounded-lg border border-stroke bg-transparent px-4 py-3 outline-none focus:border-primary dark:border-dark-3"
               >
                 <option value="">All</option>
-                <option value="pending">Pending</option>
-                <option value="processing">Processing</option>
-                <option value="completed">Completed</option>
-                <option value="cancelled">Cancelled</option>
-              </select>
-            </div>
-
-            <div>
-              <label className="mb-2 block text-sm font-medium text-dark dark:text-white">
-                Payment
-              </label>
-
-              <select
-                value={paymentStatus}
-                onChange={(event) => setPaymentStatus(event.target.value)}
-                className="w-full rounded-lg border border-stroke bg-transparent px-4 py-3 outline-none focus:border-primary dark:border-dark-3"
-              >
-                <option value="">All</option>
-                <option value="pending">Pending</option>
-                <option value="paid">Paid</option>
-                <option value="failed">Failed</option>
-                <option value="refunded">Refunded</option>
+                <option value="PAID">Paid</option>
+                <option value="PREPARING">Preparing</option>
+                <option value="PICKUP_OR_DELIVER">Pickup Or Deliver</option>
+                <option value="COMPLETED">Completed</option>
+                <option value="CANCELLED">Cancelled</option>
               </select>
             </div>
 
@@ -203,24 +201,27 @@ const OrderPageContent = () => {
                   <th className="px-6 py-4 font-medium text-dark dark:text-white">
                     BIL
                   </th>
+
                   <th className="px-6 py-4 font-medium text-dark dark:text-white">
                     ORDER NO
                   </th>
+
                   <th className="px-6 py-4 font-medium text-dark dark:text-white">
                     CUSTOMER
                   </th>
+
                   <th className="px-6 py-4 font-medium text-dark dark:text-white">
                     STORE
                   </th>
+
                   <th className="px-6 py-4 font-medium text-dark dark:text-white">
                     TOTAL
                   </th>
+
                   <th className="px-6 py-4 font-medium text-dark dark:text-white">
                     STATUS
                   </th>
-                  <th className="px-6 py-4 font-medium text-dark dark:text-white">
-                    PAYMENT
-                  </th>
+
                   <th className="px-6 py-4 font-medium text-dark dark:text-white">
                     ACTION
                   </th>
@@ -239,12 +240,14 @@ const OrderPageContent = () => {
                       {order.order_number || `#${order.id}`}
                     </td>
 
-                    <td className="px-6 py-4">{order.customer_name || "-"}</td>
+                    <td className="px-6 py-4">
+                      {order.customer_name || "-"}
+                    </td>
 
                     <td className="px-6 py-4">{order.store_name || "-"}</td>
 
                     <td className="px-6 py-4">
-                      RM {order.total_amount || "0.00"}
+                      {moneyFormatter.format(getOrderTotal(order))}
                     </td>
 
                     <td className="px-6 py-4">
@@ -252,43 +255,39 @@ const OrderPageContent = () => {
                     </td>
 
                     <td className="px-6 py-4">
-                      <OrderBadge value={order.payment_status || "-"} />
-                    </td>
+  <div className="flex items-center gap-2">
+    <Link
+      href={`/orders/${order.id}`}
+      className="inline-flex h-[36px] items-center justify-center rounded-lg border border-stroke px-4 text-xs font-semibold text-dark transition hover:bg-gray-2 dark:border-dark-3 dark:text-white dark:hover:bg-dark-2"
+    >
+      View
+    </Link>
 
-                    <td className="px-6 py-4">
-                      <div className="flex items-center gap-3">
-                        <Link
-                          href={`/orders/${order.id}`}
-                          className="text-sm font-medium text-primary"
-                        >
-                          View
-                        </Link>
+    <button
+      type="button"
+      onClick={() => openEditForm(order)}
+      className="inline-flex h-[36px] items-center justify-center rounded-lg bg-primary px-4 text-xs font-semibold text-white transition hover:bg-opacity-90"
+    >
+      Edit
+    </button>
 
-                        <button
-                          type="button"
-                          onClick={() => openEditForm(order)}
-                          className="text-sm font-medium text-primary"
-                        >
-                          Edit
-                        </button>
-
-                        <button
-                          type="button"
-                          disabled={isDeleting}
-                          onClick={() => handleDelete(order)}
-                          className="text-sm font-medium text-red"
-                        >
-                          Delete
-                        </button>
-                      </div>
-                    </td>
+    <button
+      type="button"
+      disabled={isDeleting}
+      onClick={() => handleDelete(order)}
+      className="inline-flex h-[36px] items-center justify-center rounded-lg bg-red px-4 text-xs font-semibold text-white transition hover:bg-opacity-90 disabled:opacity-60"
+    >
+      Delete
+    </button>
+  </div>
+</td>
                   </tr>
                 ))}
 
                 {orders.length === 0 && (
                   <tr>
                     <td
-                      colSpan={8}
+                      colSpan={7}
                       className="px-6 py-8 text-center text-dark-5 dark:text-dark-6"
                     >
                       No Orders Found
@@ -335,33 +334,11 @@ const OrderPageContent = () => {
                   className="w-full rounded-lg border border-stroke bg-transparent px-4 py-3 outline-none focus:border-primary dark:border-dark-3"
                 >
                   <option value="">Select Status</option>
-                  <option value="pending">Pending</option>
-                  <option value="processing">Processing</option>
-                  <option value="completed">Completed</option>
-                  <option value="cancelled">Cancelled</option>
-                </select>
-              </div>
-
-              <div>
-                <label className="mb-2 block text-sm font-medium text-dark dark:text-white">
-                  Payment Status
-                </label>
-
-                <select
-                  value={form.payment_status}
-                  onChange={(event) =>
-                    setForm({
-                      ...form,
-                      payment_status: event.target.value,
-                    })
-                  }
-                  className="w-full rounded-lg border border-stroke bg-transparent px-4 py-3 outline-none focus:border-primary dark:border-dark-3"
-                >
-                  <option value="">Select Payment Status</option>
-                  <option value="pending">Pending</option>
-                  <option value="paid">Paid</option>
-                  <option value="failed">Failed</option>
-                  <option value="refunded">Refunded</option>
+                  <option value="PAID">Paid</option>
+                  <option value="PREPARING">Preparing</option>
+                  <option value="PICKUP_OR_DELIVER">Pickup Or Deliver</option>
+                  <option value="COMPLETED">Completed</option>
+                  <option value="CANCELLED">Cancelled</option>
                 </select>
               </div>
 
@@ -435,7 +412,9 @@ const OrderBadge = ({ value }: OrderBadgeProps) => {
   const normalizedValue = value.toLowerCase();
 
   const className =
-    normalizedValue === "completed" || normalizedValue === "paid"
+    normalizedValue === "completed" ||
+    normalizedValue === "paid" ||
+    normalizedValue === "pickup_or_deliver"
       ? "bg-primary/10 text-primary"
       : normalizedValue === "cancelled" ||
           normalizedValue === "failed" ||
@@ -445,9 +424,47 @@ const OrderBadge = ({ value }: OrderBadgeProps) => {
 
   return (
     <span className={`rounded-full px-3 py-1 text-sm font-medium ${className}`}>
-      {value}
+      {formatStatusLabel(value)}
     </span>
   );
+};
+
+const getOrderTotal = (order: Order) => {
+  const directAmount =
+    order.final_total ??
+    order.bill_amount ??
+    order.total_price ??
+    order.total_amount;
+
+  if (
+    directAmount !== null &&
+    directAmount !== undefined &&
+    directAmount !== ""
+  ) {
+    const amount = Number(String(directAmount).replace(/[^\d.-]/g, ""));
+
+    if (Number.isFinite(amount)) {
+      return amount;
+    }
+  }
+
+  const paymentAmount = Number(
+    String(order.payment_amount || "").replace(/[^\d.-]/g, ""),
+  );
+
+  if (Number.isFinite(paymentAmount) && paymentAmount > 0) {
+    return paymentAmount / 100;
+  }
+
+  return 0;
+};
+
+const formatStatusLabel = (value: string) => {
+  if (!value || value === "-") {
+    return value;
+  }
+
+  return value.replaceAll("_", " ");
 };
 
 export default OrderPageContent;

@@ -18,6 +18,14 @@ export default function OrderProfile({ id }: { id: number }) {
     return new Date(value).toLocaleString();
   }
 
+  function formatFulfillmentType(value: string | null | undefined) {
+    if (!value) {
+      return "TAKE AWAY";
+    }
+
+    return value.replaceAll("_", " ");
+  }
+
   if (isLoading) {
     return (
       <div className="rounded-[10px] bg-white p-6 shadow-1 dark:bg-gray-dark dark:shadow-card">
@@ -41,7 +49,9 @@ export default function OrderProfile({ id }: { id: number }) {
       </div>
     );
   }
-const orderAny: any = order;
+
+  const orderAny: any = order;
+
   return (
     <div className="mx-auto max-w-6xl space-y-6">
       <div className="rounded-[10px] bg-white p-6 shadow-1 dark:bg-gray-dark dark:shadow-card">
@@ -67,38 +77,15 @@ const orderAny: any = order;
 
       <div className="grid gap-4 md:grid-cols-4">
         <SummaryCard title="Total Price" value={money(orderAny.total_price)} />
-        <SummaryCard title="Reward Discount" value={money(orderAny.reward_discount)} />
+
+        <SummaryCard
+          title="Reward Discount"
+          value={money(orderAny.reward_discount)}
+        />
+
         <SummaryCard title="Final Total" value={money(orderAny.final_total)} />
+
         <SummaryCard title="Items" value={order.items_count} />
-      </div>
-
-      <div className="grid gap-6 xl:grid-cols-2">
-        <InfoSection
-          title="Order Information"
-          items={[
-            ["Order Number", order.order_number],
-            ["Status", orderAny.status_label || order.status],            ["Payment Status", order.payment_status],
-            ["Payment Provider", orderAny.payment_provider],
-            ["Payment Amount", money(orderAny.payment_amount)],
-            ["Bill Amount", money(orderAny.bill_amount)],
-            ["Created At", formatDate(order.created_at)],
-            ["Updated At", formatDate(order.updated_at)],
-          ]}
-        />
-
-        <InfoSection
-          title="Customer & Store"
-          items={[
-            ["Customer Name", order.customer_name],
-            ["Customer Email", order.customer_email],
-            ["Customer Phone", orderAny.customer_phone_number],
-            ["Store Name", order.store_name],
-            ["Client Name", order.client_name],
-            ["Client Domain", order.client_domain_name],
-            ["Cancellation Reason", order.cancellation_reason],
-            ["Deleted At", formatDate(order.deleted_at)],
-          ]}
-        />
       </div>
 
       <div className="rounded-[10px] bg-white shadow-1 dark:bg-gray-dark dark:shadow-card">
@@ -122,7 +109,7 @@ const orderAny: any = order;
             </thead>
 
             <tbody>
-              {(order.line_items || []).map((item:any) => (
+              {(order.line_items || []).map((item: any) => (
                 <tr
                   key={item.id}
                   className="border-b border-stroke last:border-b-0 dark:border-dark-3"
@@ -160,6 +147,34 @@ const orderAny: any = order;
             </tbody>
           </table>
         </div>
+      </div>
+
+      <div className="grid gap-6 xl:grid-cols-2">
+        <InfoSection
+          title="Order Information"
+          items={[
+            ["Order Number", order.order_number],
+            ["Status", orderAny.status_label || order.status],
+            ["Order Type", formatFulfillmentType(orderAny.fulfillment_type)],
+            ["Bill Amount", money(orderAny.bill_amount || orderAny.final_total)],
+            ["Created At", formatDate(order.created_at)],
+            ["Updated At", formatDate(order.updated_at)],
+          ]}
+        />
+
+        <InfoSection
+          title="Customer & Store"
+          items={[
+            ["Customer Name", order.customer_name],
+            ["Customer Email", order.customer_email],
+            ["Customer Phone", orderAny.customer_phone_number],
+            ["Store Name", order.store_name],
+            ["Client Name", order.client_name],
+            ["Client Domain", order.client_domain_name],
+            ["Cancellation Reason", order.cancellation_reason],
+            ["Deleted At", formatDate(order.deleted_at)],
+          ]}
+        />
       </div>
     </div>
   );
