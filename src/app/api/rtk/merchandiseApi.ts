@@ -46,56 +46,49 @@ export const merchandiseApi = apiSlice.injectEndpoints({
       ],
     }),
 
-    createMerchandise: builder.mutation<
-      Merchandise,
-      CreateMerchandiseInput
-    >({
-      query: (data) => ({
-        url: "/mula/merchandises",
-        method: "POST",
-        body: {
-          merchandise: data,
-        },
-      }),
+    createMerchandise: builder.mutation<Merchandise, FormData>({
+  query: (formData) => ({
+    url: "/mula/merchandises",
+    method: "POST",
+    body: formData,
+  }),
 
-      transformResponse: (response: MerchandiseResponse) => response.data,
+  transformResponse: (response: MerchandiseResponse) => response.data,
 
-      invalidatesTags: [
-        {
-          type: "Merchandises",
-          id: "LIST",
-        },
-      ],
-    }),
+  invalidatesTags: [
+    {
+      type: "Merchandises",
+      id: "LIST",
+    },
+  ],
+}),
 
     updateMerchandise: builder.mutation<
-      Merchandise,
-      {
-        id: number;
-        data: UpdateMerchandiseInput;
-      }
-    >({
-      query: ({ id, data }) => ({
-        url: `/mula/merchandises/${id}`,
-        method: "PATCH",
-        body: {
-          merchandise: data,
-        },
-      }),
+  Merchandise,
+  {
+    id: number;
+    formData: FormData;
+  }
+>({
+  query: ({ id, formData }) => ({
+    url: `/mula/merchandises/${id}`,
+    method: "PATCH",
+    body: formData,
+  }),
 
-      transformResponse: (response: MerchandiseResponse) => response.data,
+  transformResponse: (response: MerchandiseResponse) => response.data,
 
-      invalidatesTags: (_result, _error, arg) => [
-        {
-          type: "Merchandises",
-          id: arg.id,
-        },
-        {
-          type: "Merchandises",
-          id: "LIST",
-        },
-      ],
-    }),
+  invalidatesTags: (_result, _error, arg) => [
+    {
+      type: "Merchandises",
+      id: arg.id,
+    },
+    {
+      type: "Merchandises",
+      id: "LIST",
+    },
+  ],
+}),
 
     deleteMerchandise: builder.mutation<
       DeleteMerchandiseResponse,

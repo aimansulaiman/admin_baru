@@ -382,9 +382,6 @@ const ProductPageContent = () => {
               alt={product.name || "Product"}
               className="h-16 w-28 rounded-lg object-cover"
             />
-            <label>{     product.image.startsWith("http")
-                  ? product.image
-                  : `${imageBaseUrl}${product.image}`}</label>
             </>
           ) : (
             <div className="flex h-16 w-28 items-center justify-center rounded-lg bg-gray-2 text-xs dark:bg-dark-2">

@@ -62,7 +62,7 @@ export function Header() {
 
         <ThemeToggleSwitch />
 
-        <Notification />
+    
 
         <UserInfo />
       </div>
