@@ -41,7 +41,12 @@ const MerchandisePageContent = () => {
     closeForm,
     handleFormSubmit,
     handleDelete,
+    handleImageChange,
   } = useMerchandiseTable();
+
+  const imageBaseUrl = (
+  process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:3001/loyalty/v1"
+).replace("/loyalty/v1", "");
 
   if (isLoading) {
     return (
@@ -203,6 +208,10 @@ const MerchandisePageContent = () => {
       </th>
 
       <th className="px-6 py-4 font-medium text-dark dark:text-white">
+        IMAGE
+      </th>
+
+      <th className="px-6 py-4 font-medium text-dark dark:text-white">
         NAME
       </th>
 
@@ -236,6 +245,22 @@ const MerchandisePageContent = () => {
       >
         <td className="px-6 py-4 text-sm text-dark-5 dark:text-dark-6">
           {index + 1}
+        </td>
+
+        <td className="px-6 py-4">
+          {merchandise.image ? (
+          <img
+            src={merchandise.image}
+            alt={merchandise.name || "Merchandise"}
+            className="h-16 w-16 rounded-lg border border-stroke object-cover dark:border-dark-3"
+          />
+          
+        
+        ) : (
+          <div className="flex h-16 w-16 items-center justify-center rounded-lg bg-gray-2 text-center text-xs text-dark-5 dark:bg-dark-2 dark:text-dark-6">
+            No image
+          </div>
+          )}
         </td>
 
         <td className="px-6 py-4">
@@ -298,7 +323,7 @@ const MerchandisePageContent = () => {
     {merchandises.length === 0 && (
       <tr>
         <td
-          colSpan={7}
+          colSpan={8}
           className="px-6 py-8 text-center text-sm text-dark-5 dark:text-dark-6"
         >
           No Merchandises Found
@@ -346,11 +371,42 @@ const MerchandisePageContent = () => {
                 onChange={(value) => setForm({ ...form, harga: value })}
               />
 
-              <MerchandiseInput
-                label="Image URL"
-                value={form.image}
-                onChange={(value) => setForm({ ...form, image: value })}
-              />
+              <div>
+  <label className="mb-2 block text-sm font-medium text-dark dark:text-white">
+    Merchandise Image
+  </label>
+
+  <div className="flex items-center gap-3">
+    <label className="cursor-pointer rounded-lg bg-primary px-5 py-3 text-sm font-medium text-white">
+      Choose
+      <input
+        type="file"
+        accept="image/jpeg,image/png,image/webp,image/gif"
+        required={!editingMerchandise}
+        onChange={handleImageChange}
+        className="hidden"
+      />
+    </label>
+
+    <span className="text-sm text-dark-5 dark:text-dark-6">
+      {form.imageFile ? form.imageFile.name : "No file chosen"}
+    </span>
+  </div>
+
+  <p className="mt-2 text-xs text-dark-5 dark:text-dark-6">
+    JPG, PNG, WEBP or GIF. Maximum size: 5 MB.
+  </p>
+
+  {form.imagePreview && (
+    <div className="mt-4">
+      <img
+        src={form.imagePreview}
+        alt="Merchandise Preview"
+        className="h-40 w-40 rounded-lg border border-stroke object-cover dark:border-dark-3"
+      />
+    </div>
+  )}
+</div>
 
               <MerchandiseInput
                 label="Start Date"
